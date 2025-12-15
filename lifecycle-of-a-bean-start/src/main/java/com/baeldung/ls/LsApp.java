@@ -4,12 +4,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.baeldung.ls.config.AppConfig;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class LsApp {
 
     public static void main(final String... args) {
-        SpringApplication.run(LsApp.class, args);
+//        SpringApplication.run(LsApp.class, args);
+
+        ConfigurableApplicationContext context = SpringApplication.run(LsApp.class, args);
+        context.close();
     }
 
 }

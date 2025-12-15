@@ -5,7 +5,9 @@ import java.util.Optional;
 import com.baeldung.ls.persistence.model.Project;
 import com.baeldung.ls.persistence.repository.IProjectRepository;
 import com.baeldung.ls.service.IProjectService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProjectServiceImpl implements IProjectService {
 
     private IProjectRepository projectRepository;

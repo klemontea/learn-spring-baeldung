@@ -4,13 +4,16 @@ import com.baeldung.ls.persistence.model.Project;
 import com.baeldung.ls.persistence.repository.IProjectRepository;
 import com.baeldung.ls.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class ProjectServiceImplSetterInjection implements IProjectService {
+public class ProjectServiceImplFieldInjection implements IProjectService {
 
+    @Autowired
+    @Qualifier("projectRepositoryImpl2")
     private IProjectRepository projectRepository;
 
     @Override
@@ -21,10 +24,5 @@ public class ProjectServiceImplSetterInjection implements IProjectService {
     @Override
     public Project save(Project project) {
         return projectRepository.save(project);
-    }
-
-    @Autowired
-    public void setProjectRepository(IProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
     }
 }
