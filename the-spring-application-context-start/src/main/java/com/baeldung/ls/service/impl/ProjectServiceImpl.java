@@ -2,6 +2,8 @@ package com.baeldung.ls.service.impl;
 
 import java.util.Optional;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -37,5 +39,15 @@ public class ProjectServiceImpl implements IProjectService, ApplicationContextAw
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         LOG.info("CONTEXT WITH ID '{}' SET", applicationContext.getId());
+    }
+
+    @PostConstruct
+    public void created() {
+        LOG.info("POST CONSTRUCT in ProjectServiceImpl");
+    }
+
+    @PreDestroy
+    public void onDestroy() {
+        LOG.info("PRE DESTROY in ProjectServiceImpl");
     }
 }
