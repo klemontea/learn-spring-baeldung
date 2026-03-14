@@ -1,22 +1,21 @@
 package com.baeldung.ls.persistence.repository.impl;
 
+import com.baeldung.ls.persistence.model.Project;
+import com.baeldung.ls.persistence.repository.IProjectRepository;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
-
-import com.baeldung.ls.persistence.model.Project;
-import com.baeldung.ls.persistence.repository.IProjectRepository;
-
 @Repository
-@Profile("dev")
-public class ProjectRepositoryImpl implements IProjectRepository {
+@Profile("prod")
+public class ProjectRepositoryDBBasedImpl implements IProjectRepository {
 
     List<Project> projects = new ArrayList<>();
 
-    public ProjectRepositoryImpl() {
+    public ProjectRepositoryDBBasedImpl() {
         super();
     }
 
