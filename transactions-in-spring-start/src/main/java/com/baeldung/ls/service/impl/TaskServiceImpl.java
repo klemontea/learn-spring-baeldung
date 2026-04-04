@@ -1,5 +1,6 @@
 package com.baeldung.ls.service.impl;
 
+import com.baeldung.ls.exception.TaskNotSavedException;
 import org.springframework.stereotype.Service;
 
 import com.baeldung.ls.persistence.model.Task;
@@ -21,8 +22,9 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     @Override
-    public Task save(Task task) {
-        return taskRepository.save(task);
+    public Task save(Task task) throws TaskNotSavedException {
+        throw new TaskNotSavedException("Unable to save task");
+//        return taskRepository.save(task);
     }
 
 }
