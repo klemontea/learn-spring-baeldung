@@ -1,16 +1,12 @@
 package com.baeldung.ls.web.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
 import com.baeldung.ls.persistence.model.Project;
 import com.baeldung.ls.service.IProjectService;
+import com.baeldung.ls.web.dto.ProjectDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping(value = "/projects")
@@ -25,14 +21,26 @@ public class ProjectController {
     //
 
     @GetMapping(value = "/{id}")
-    public Project findOne(@PathVariable Long id) {
-        return projectService.findById(id)
+    public ProjectDto findOne(@PathVariable Long id) {
+        var entity = projectService.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return convertToDto(entity);
     }
 
     @PostMapping
-    public void create(@RequestBody Project newProject) {
-        this.projectService.save(newProject);
+    public void create(@RequestBody ProjectDto newProject) {
+        this.projectService.save(convertToEntity(newProject));
     }
 
+    private ProjectDto convertToDto(Project entity) {
+        return new ProjectDto(entity.getId(), entity.getName());
+    }
+
+    private Project convertToEntity(ProjectDto dto) {
+        var project = new Project(dto.getName(), null);
+        if (StringUtils.isEmpty(dto.getId())) {
+            project.setId(dto.getId());
+        }
+        return project;
+    }
 }

@@ -1,0 +1,36 @@
+package com.baeldung.ls.web.controller;
+
+import com.baeldung.ls.persistence.model.Project;
+import com.baeldung.ls.service.IProjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
+
+@RestController
+@RequestMapping(value = "/projects")
+public class ProjectController {
+
+    @Autowired
+    private IProjectService projectService;
+
+    public ProjectController(IProjectService projectService) {
+        super();
+        this.projectService = projectService;
+    }
+
+    @GetMapping(value = "/{id}")
+    public Project findOne(@PathVariable Long id) {
+        return projectService.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+    }
+
+    @PostMapping
+    public void create(@RequestBody Project project) {
+        projectService.save(project);
+
+    }
+}
