@@ -1,9 +1,11 @@
 package com.baeldung.ls.web.controller;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +41,16 @@ public class ProjectController {
     public void create(@RequestBody ProjectDto newProject) {
         Project entity = convertToEntity(newProject);
         this.projectService.save(entity);
+    }
+
+    @GetMapping
+    public String getProjects(Model model) {
+        var projects = projectService.findAll();
+        var projectDtos = new ArrayList<ProjectDto>();
+        projects.forEach(p -> projectDtos.add(convertToDto(p)));
+        model.addAttribute("projects", projectDtos);
+
+        return "projects";
     }
 
     protected ProjectDto convertToDto(Project entity) {
