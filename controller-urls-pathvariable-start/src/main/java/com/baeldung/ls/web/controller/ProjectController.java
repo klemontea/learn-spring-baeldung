@@ -1,5 +1,6 @@
 package com.baeldung.ls.web.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -37,10 +38,17 @@ public class ProjectController {
     //
 
     @GetMapping(value = "/{id}")
-    public ProjectDto findOne(@PathVariable Long id) {
+    public ProjectDto findOne(@PathVariable("id") Long id) {
         Project entity = projectService.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return convertToDto(entity);
+    }
+
+    @GetMapping(value = "/{category}-{subcategoryId:\\d\\d}/{id}")
+    public ProjectDto findOne(@PathVariable(required = false) Long id,
+                              @PathVariable String category,
+                              @PathVariable Integer subcategoryId) {
+        return new ProjectDto(99L, "Testing", LocalDate.now());
     }
 
     @PostMapping

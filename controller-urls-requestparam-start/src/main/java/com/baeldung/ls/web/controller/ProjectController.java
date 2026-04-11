@@ -7,15 +7,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.baeldung.ls.persistence.model.Project;
@@ -51,9 +44,14 @@ public class ProjectController {
     }
 
     @GetMapping
-    public Collection<ProjectDto> findAll() {
-        Iterable<Project> allProjects = this.projectService.findAll();
+    public Collection<ProjectDto> findProjects(
+            @RequestParam(value = "name", required = false, defaultValue = "") String name) {
+
         List<ProjectDto> projectDtos = new ArrayList<>();
+        if (ObjectUtils.isEmpty(name)) {
+            return projectDtos;
+        }
+        Iterable<Project> allProjects = this.projectService.findByName(name);
         allProjects.forEach(p -> projectDtos.add(convertToDto(p)));
         return projectDtos;
     }

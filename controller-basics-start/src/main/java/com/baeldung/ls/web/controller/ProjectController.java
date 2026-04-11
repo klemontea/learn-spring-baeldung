@@ -37,7 +37,7 @@ public class ProjectController {
         return convertToDto(entity);
     }
 
-    @PostMapping
+    @PostMapping(params = "accept=application/json")
     public void create(@RequestBody ProjectDto newProject) {
         Project entity = convertToEntity(newProject);
         this.projectService.save(entity);
