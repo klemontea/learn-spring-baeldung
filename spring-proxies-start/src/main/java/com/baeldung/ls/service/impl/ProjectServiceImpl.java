@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.baeldung.ls.persistence.model.Project;
 import com.baeldung.ls.persistence.repository.IProjectRepository;
 import com.baeldung.ls.service.IProjectService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProjectServiceImpl implements IProjectService {
@@ -25,6 +26,7 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
+    @Transactional
     public Project save(Project project) {
         if (Objects.isNull(project.getId())) {
             project.setDateCreated(LocalDate.now());

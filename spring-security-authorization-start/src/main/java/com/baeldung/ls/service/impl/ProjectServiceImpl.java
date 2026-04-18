@@ -6,6 +6,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import jakarta.annotation.security.RolesAllowed;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -37,6 +41,10 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
+    @PreAuthorize("hasRole('MANAGER')")
+//    @Secured("ROLE_MANAGER")
+//    @RolesAllowed("ROLE_MANAGER")
+//    @PostAuthorize("hasRole('MANAGER')")
     public Iterable<Project> findAll() {
         return projectRepository.findAll();
     }
